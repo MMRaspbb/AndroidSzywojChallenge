@@ -68,7 +68,6 @@ public class BounceMap {
         //parameterA = -1/parameterA;
         parameterB = currentY - parameterA*currentX;
     }
-
     public boolean hitObject(float x, float y) {
         double currentY = currentX*parameterA + parameterB;
         if(x > currentX - objectWidth/2 && x < currentX + objectWidth/2 && y > currentY - objectHight/2 && y < currentY + objectHight/2){
