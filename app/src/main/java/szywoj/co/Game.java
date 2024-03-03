@@ -81,9 +81,6 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-
-        //jumpScare.beginScare(getContext()); //usun
-
         floatingFace.draw(canvas);
         jumpScare.draw(canvas);
         drawUPS(canvas);

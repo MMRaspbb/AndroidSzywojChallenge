@@ -19,25 +19,32 @@ public class JumpScare {
     private Paint paint;
     private double alphaStep = 255/fadeOutFrames;
     private JumpScareLoader jumpScareLoader;
+    private int startX;
+    private int startY;
+    private int endX;
+    private int endY;
     public JumpScare(int windowHeight, int windowWidth, JumpScareLoader jumpScareLoader, Sprite sprite){
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
         rect = new Rect(0,0, windowWidth, windowHeight);
-        this.jumpScareLoader = jumpScareLoader;
         this.sprite = sprite;
+
+        this.bitmap = jumpScareLoader.getBitmap();
     }
     public void drawNotTransparrent(Canvas canvas) {
+        Rect newRect = new Rect(startX, startY, endX, endY);
         canvas.drawBitmap(
                 bitmap,
-                rect,
+                newRect,
                 rect,
                 null
         );
     }
     public void drawFadeOut(Canvas canvas, Paint paint){
+        Rect newRect = new Rect(startX, startY, endX, endY);
         canvas.drawBitmap(
                 bitmap,
-                rect,
+                newRect,
                 rect,
                 paint
         );
@@ -56,11 +63,28 @@ public class JumpScare {
             }
         }
     }
+
+    public void reloadJumpScare(String face){
+        int number = 0;
+        switch(face){
+            case "szywoj":
+                number = (int)(Math.random() * 2);
+                break;
+            case "seba":
+                number = (int)(Math.random() * 2) + 2;
+                break;
+        }
+        int jumpScareX = number % 5;
+        int jumpScareY = (int)(number/5);
+        startX = jumpScareX * windowWidth;
+        endX = startX + windowWidth;
+        startY = jumpScareY * windowHeight;
+        endY = startY + windowHeight;
+    }
     public void beginScare(Context context){
         timer = notTransparentFrames + fadeOutFrames;
         currentAlpha = 255;
         paint = new Paint();
-        jumpScareLoader.reloadJumpScare(sprite.getCurrentFace());
-        bitmap = jumpScareLoader.getBitmap();
+        reloadJumpScare(sprite.getCurrentFace());
     }
 }
