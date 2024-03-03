@@ -15,42 +15,41 @@ public class JumpScareLoader {
     private int windowHeight;
     private Bitmap bitmap;
     private Context context;
+    private int jumpScareX;
+    private int jumpScareY;
     public JumpScareLoader(Context context, int windowWidth, int windowHeight){
         this.windowHeight = windowHeight;
         this.windowWidth = windowWidth;
         this.context = context;
 
-        String[] scares = new String[]{"brodacz", "sbixon", "wampir", "zjaraniec"};
-        String scare = scares[(int)(Math.random()) * 3];
-
-        int resourceId = context.getResources().getIdentifier(scare, "drawable", context.getPackageName());
+        int resourceId = context.getResources().getIdentifier("scare_sheet.png", "drawable", context.getPackageName());
         loadJumpScare(resourceId);
     }
 
     public void reloadJumpScare(String face){
-        String[] images = new String[]{"brodacz"};
-        switch (face){
+        int number = 0;
+        switch(face){
             case "szywoj":
-                images = new String[]{"brodacz", "zjaraniec"};
+                number = (int)(Math.random() * 2);
                 break;
             case "seba":
-                images = new String[]{"sebixon", "wampir"};
+                number = (int)(Math.random() * 2) + 2;
                 break;
         }
-        int rand = (int)(Math.floor(Math.random() * images.length));
-        int resourceId = context.getResources().getIdentifier(images[rand], "drawable", context.getPackageName());
-        loadJumpScare(resourceId);
+        jumpScareX = number % 5;
+        jumpScareY = (int)(number/5);
     }
 
     public void loadJumpScare(int resourceId){
         BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
         bitmapOptions.inScaled = false;
         bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId, bitmapOptions);
-        bitmap = Bitmap.createScaledBitmap(bitmap, windowWidth,windowHeight,true);
     }
 
 
     public Bitmap getBitmap() {
-        return bitmap;
+        //Bitmap sprite = Bitmap.createBitmap(bitmap, jumpScareX*300, jumpScareY*600, (jumpScareX + 1) * 300, (jumpScareY + 1) * 600);
+        Bitmap sprite = Bitmap.createBitmap(bitmap, 300, 0, 600, 600);
+        return Bitmap.createScaledBitmap(sprite, windowWidth, windowHeight, true);
     }
 }

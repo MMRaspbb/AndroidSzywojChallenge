@@ -60,9 +60,7 @@ public class JumpScare {
         timer = notTransparentFrames + fadeOutFrames;
         currentAlpha = 255;
         paint = new Paint();
-        //jumpScareLoader.reloadJumpScare(sprite.getCurrentFace());
-        //int resourceId = context.getResources().getIdentifier("wampir", "drawable", context.getPackageName());
-        //jumpScareLoader.loadJumpScare(resourceId);
+        jumpScareLoader.reloadJumpScare(sprite.getCurrentFace());
         bitmap = jumpScareLoader.getBitmap();
     }
 }

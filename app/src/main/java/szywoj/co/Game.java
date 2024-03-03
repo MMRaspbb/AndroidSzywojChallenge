@@ -70,8 +70,8 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
             case MotionEvent.ACTION_DOWN:
                 if(bounceMap.hitObject(event.getX(), event.getY())){
                     bounceMap.randomizeAndCalculate();
-                    floatingFace.changeFace();
                     jumpScare.beginScare(this.getContext());
+                    floatingFace.changeFace();
                 }
                 return true;
         }
@@ -81,6 +81,9 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
+
+        //jumpScare.beginScare(getContext()); //usun
+
         floatingFace.draw(canvas);
         jumpScare.draw(canvas);
         drawUPS(canvas);
