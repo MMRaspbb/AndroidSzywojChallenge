@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Picture;
+import android.media.MediaPlayer;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -16,6 +17,7 @@ import szywoj.co.graphics.JumpScare;
 import szywoj.co.graphics.JumpScareLoader;
 import szywoj.co.graphics.Sprite;
 import szywoj.co.graphics.SpriteSheet;
+import szywoj.co.sounds.SoundPlayer;
 import szywoj.co.utils.BounceMap;
 
 public class Game extends SurfaceView implements SurfaceHolder.Callback {
@@ -25,8 +27,9 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     private BounceMap bounceMap;
     private boolean succes = false;
     private JumpScare jumpScare;
+    private SoundPlayer soundPlayer;
 
-    public Game(Context context, int windowHeight, int windowWidth){
+    public Game(Context context, int windowHeight, int windowWidth, SoundPlayer soundPlayer){
         super(context);
 
         SurfaceHolder surfaceHolder = getHolder();
@@ -45,6 +48,8 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
         jumpScareLoader = new JumpScareLoader(this.getContext(), windowWidth, windowHeight);
         jumpScare = new JumpScare(windowHeight, windowWidth, jumpScareLoader, sprite);
+
+        this.soundPlayer = soundPlayer;
 
         setFocusable(true);
     }
@@ -69,9 +74,11 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         switch (event.getAction()){
             case MotionEvent.ACTION_DOWN:
                 if(bounceMap.hitObject(event.getX(), event.getY())){
+                    soundPlayer.stopPlayer();
                     bounceMap.randomizeAndCalculate();
                     jumpScare.beginScare(this.getContext());
                     floatingFace.changeFace();
+                    soundPlayer.play(this);
                 }
                 return true;
         }
